@@ -3,6 +3,41 @@
 import UIKit
 import PlaygroundSupport
 import SnapKit
+import Foundation
+/**
+ 반복하는 요일 갯수 구하기. 월요일마다 반복? 수요일마다 반복? 선택한 요일이 뭔지. diff 사이에서 요일마다 get 할수있는건 없눈데.
+ 
+ 1. diff day
+ 1.1 clean duration
+ 
+ 2. 이 날짜는 월/수/금 중 하루인가?
+ 3. enum
+ 4. date validation
+ 
+ */
+
+// date init
+let tomorrow = Date.init(timeIntervalSinceNow: 60*60*24*2)
+let startDate = DateComponents(calendar: Calendar.current, year: 2019, month: 7, day: 25).date
+let cleanTomorrow = Calendar.current.startOfDay(for: tomorrow)
+let cleanToday = Calendar.current.startOfDay(for: Date())
+
+let diff = Calendar.current.dateComponents([.day, .hour], from: cleanToday, to: cleanTomorrow)
+diff.day
+diff.hour
+
+
+let repeatingWeekday = [1,3,5] // Sun, Tue, Thur // enum으로 index랑 string을 둘 다 갖고있을수 있으면 좋을텐데..........
+var repeatingDayTotalCount = 0
+
+if let targetDate = DateComponents(calendar: Calendar.current, year: 2019, month: 7, day: 28).date {
+    let components = Calendar.current.dateComponents([.weekday], from: targetDate)
+    
+    let result = repeatingWeekday.contains(components.weekday ?? -1) ? 1 : 0
+    repeatingDayTotalCount += result
+}
+
+
 
 /*
  snapkit 적용은 맨 마지막.

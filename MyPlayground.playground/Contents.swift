@@ -16,9 +16,23 @@ import Foundation
  
  */
 
+let startDate = DateComponents(calendar: Calendar.current, year: 2019, month: 8, day: 1).date!
+let endDate = DateComponents(calendar: Calendar.current, year: 2019, month: 9, day: 30).date!
+let dateDifference = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day ?? 0
+
+let repeatingWeekday = [1,2,3,4,5,6,7] // testing! yeah!
+var repeatingDayTotalCount = 0
+
+(0...dateDifference).forEach { (index) in
+    let targetDate = Date(timeInterval: TimeInterval(60*60*24*index), since: startDate)
+    let component = Calendar.current.dateComponents([.weekday], from: targetDate)
+    let targetDateExist = repeatingWeekday.contains(component.weekday ?? -1) ? 1 : 0
+    repeatingDayTotalCount += targetDateExist
+}
+repeatingDayTotalCount
+
 // date init
 let tomorrow = Date.init(timeIntervalSinceNow: 60*60*24*2)
-let startDate = DateComponents(calendar: Calendar.current, year: 2019, month: 7, day: 25).date
 let cleanTomorrow = Calendar.current.startOfDay(for: tomorrow)
 let cleanToday = Calendar.current.startOfDay(for: Date())
 
@@ -27,23 +41,11 @@ diff.day
 diff.hour
 
 
-let repeatingWeekday = [1,3,5] // Sun, Tue, Thur // enum으로 index랑 string을 둘 다 갖고있을수 있으면 좋을텐데..........
-var repeatingDayTotalCount = 0
-
-if let targetDate = DateComponents(calendar: Calendar.current, year: 2019, month: 7, day: 28).date {
-    let components = Calendar.current.dateComponents([.weekday], from: targetDate)
-    
-    let result = repeatingWeekday.contains(components.weekday ?? -1) ? 1 : 0
-    repeatingDayTotalCount += result
-}
-
-
-
 /*
  snapkit 적용은 맨 마지막.
  text setting 등의 렌더링 변경이 발생하면 SnapKit이 깨진다. 맨 마지막에 추가한 component만 적용되는 등 화면이 웃겨짐.
  */
-
+/*
 final class QuestJoinIntroViewModel {
     // BoardModel
     private var title: String = "한달안에 토익100점"
